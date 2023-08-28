@@ -231,7 +231,7 @@ onhashchange = lang => {
     Q('label:is([for|=set])[title]', label => label.title = lang == 'zh' ? 
         Translate.text(label.htmlFor.split('-')[1]) : label.htmlFor.split('-')[1]
     );
-    setTimeout(Menu?.align);
+    setTimeout(Q('menu') && Menu.align);
 }
 const DEMO = location.pathname != '/rune/simulator/';
 const Translate = {
