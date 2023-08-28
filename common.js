@@ -137,7 +137,7 @@ class Stats {
             }
         });
     }
-    static zero = () => Object.keys(Rune.secondary).reduce((obj, prop) => ({...obj, [prop]: 0}), {});
+    static zero = () => Stats.order.reduce((obj, prop) => ({...obj, [prop]: 0}), {});
     static update = () => {
         let runes = Stats.runes();
         Q('input[type=number]', input => input.nextElementSibling.value = runes[input.name]);
