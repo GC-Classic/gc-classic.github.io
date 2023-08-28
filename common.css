@@ -239,6 +239,6 @@ aside p {
 
 footer {
     font-size:.75em;
-    padding:.5em;
+    padding:.5em; margin-top:1em;
     background:dimgrey;
 }
