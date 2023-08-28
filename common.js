@@ -1,4 +1,4 @@
-navigator.serviceWorker.register('/rune/worker.js');
+navigator.serviceWorker.register('/worker.js');
 HTMLDataElement.prototype.add = function(value) {this.value = parseFloat(this.value) + value;}
 const Cookie = {
     ...Object.fromEntries(document.cookie.split(/;\s?/).map(c => c.split('=')).map(([k, v]) => [k, v?.includes('{') ? JSON.parse(v) : v])),
