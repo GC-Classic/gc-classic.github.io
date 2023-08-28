@@ -85,7 +85,7 @@ const DB = {
             ev.target.result.continue();
         }
     }),
-    show: store => DB.open().then(() => DB.getAll(store))
+    show: store => DB.open().then(() => DB.getAll(store)).then(entries => entries.length ? entries.forEach(([i, entry]) => Calculator.add({id: i, ...entry})) : Calculator.add());
 }
 const Menu = () => {
     document.fonts.ready.then(Menu.align);
