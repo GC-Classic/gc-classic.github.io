@@ -61,7 +61,7 @@ const DB = {
     db: null,
     open: () => new Promise(res => {
         if (DB.db) return res(DB.db);
-        let opening = indexedDB.open('runes', 1);
+        let opening = indexedDB.open('GCC', 1);
         opening.onerror = er => console.error(er);
         opening.onsuccess = () => res((DB.db = opening.result).onerror = opening.onerror);
         opening.onupgradeneeded = () => DB.init(opening).then(res).catch(opening.onerror);
