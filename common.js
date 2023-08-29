@@ -166,6 +166,7 @@ class Icon extends HTMLElement {
             display:inline-flex;
             position:relative;
         }
+        :host([prop=BAD]) {transform:rotate(90deg);}
         img {margin:auto;}
         img[src*='/set/'] {
             width:.8em; height:.8em; object-fit:contain;
@@ -214,7 +215,7 @@ class Icon extends HTMLElement {
     static sequence = ['A','D','V','TR','SA','CAC','CAD','MP','HP','CD','CAR','SD','HS','GP'];
     static en = {A:'attack', D:'defense', V:'vitality', SA:'special attack', SD:'special defense', CAC:'critical attack chance', CAD:'critical attack damage', CAR:'critical attack resistance', HP:'HP recovery', MP:'MP recovery', TR:'taint resistance', CD:'counter defense', GP:'GP gain', HS:'hell spear'};
     static zh = {A:'攻擊力', D:'防禦力', V:'生命力', SA:'必殺攻擊力', SD:'必殺防禦力', CAC:'暴擊率', CAD:'暴擊傷害', CAR:'暴擊抵抗', HP:'HP 回復', MP:'MP 回復', TR:'侵蝕抵抗', CD:'克制抵抗', HS:'地獄之矛', GP:'GP 獲得'};
-    static others = {HSC:'javelin', HS:'roar', CAD:'doom', HP:'recovery', TR:'resist'};
+    static others = {HSC:'javelin', HS:'roar', CAD:'doom', HP:'recovery', TR:'resist',EXP:'grow',BAD:'fight'};
     static observedAttributes = ['tips'];
     set prop(prop) {this.setAttribute('prop', prop);}
     set tips(_) {this.setAttribute('tips', '');}
