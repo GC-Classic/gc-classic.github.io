@@ -166,7 +166,7 @@ class Icon extends HTMLElement {
             display:inline-flex;
             position:relative;
         }
-        :host([prop=BAD]) {transform:rotate(90deg);}
+        :host([prop=BAD]) {transform:rotate(-90deg);}
         img {margin:auto;}
         img[src*='/set/'] {
             width:.8em; height:.8em; object-fit:contain;
