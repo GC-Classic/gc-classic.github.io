@@ -238,7 +238,10 @@ aside p {
 }
 
 footer {
-    font-size:.75em;
     padding:.5em; margin-top:1em;
     background:dimgrey;
+}
+footer cite {
+    font-size:.75em;
+    display:block;
 }
