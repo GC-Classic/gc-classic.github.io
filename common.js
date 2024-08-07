@@ -8,12 +8,15 @@ const Q = Node.prototype.Q = function(el, func) {
     let els = this.querySelectorAll?.(el) ?? document.querySelectorAll(el);
     return func ? els.forEach(func) : els.length > 1 ? [...els] : els[0];
 }
-const E = (el, childORattr, attr) => {
-    attr = childORattr?.constructor == Object ? childORattr : attr;
-    childORattr = [String, Number, Array].includes(childORattr?.constructor) ? [childORattr].flat() : [];
-    el = Object.assign(document.createElement(el), attr ?? {});
-    el.append(...childORattr);
-    return el;
+const E = (el, ...stuff) => {
+    let [text, attr, children] = ['String', 'Object', 'Array'].map(t => stuff.find(s => Object.prototype.toString.call(s).includes(t)));
+    text && (attr = {textContent: text, ...attr ?? {}});
+    el == 'img' && (attr &&= {alt: attr.src.match(/([^/.]+)(\.[^/.]+)$/)?.[1], onerror: ev => ev.target.remove(), ...attr ?? {}});
+    el = ['svg', 'use', 'path'].includes(el) ? document.createElementNS('http://www.w3.org/2000/svg', el) : document.createElement(el);
+    el.append(...children ?? []);
+    Object.assign(el.style, attr?.style ?? {});
+    Object.assign(el.dataset, attr?.dataset ?? {});
+    return Object.assign(el, (({style, dataset, ...attr}) => attr)(attr ?? {}));
 }
 E.strTOobj = (s, which) => Object[which](s.constructor == Object ? s : {[s]: s})[0];
 E.fieldsets = {
