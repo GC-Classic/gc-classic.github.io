@@ -81,6 +81,7 @@ a.located {
 .delta.nega::after {content:'▼'attr(value);}
 .boost.posi::before {content:'+';}
 .boost.nega::before {content:'−';}
+.boost.posi.percent::after {content:attr(value)' %';}
 img[src*=set] {
     height:1em; width:1em;
     object-fit:contain;
