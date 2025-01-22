@@ -88,7 +88,7 @@ const DB = {
             ev.target.result.continue();
         }
     }),
-    show: store => DB.open().then(() => DB.getAll(store)).then(entries => entries.length ? entries.forEach(([i, entry]) => Calculator.add({id: i, ...entry})) : Calculator.add())
+    show: store => DB.open().then(() => DB.getAll(store)).then(entries => entries.length ? entries.forEach(([i, entry]) => Analyzer.add({id: i, ...entry})) : Analyzer.add())
 }
 const Menu = () => {
     document.fonts.ready.then(Menu.align);
@@ -158,19 +158,6 @@ class Stats {
     static round = ({prop, value}) => Stats.decimals.includes(prop) ? value.toFixed(2) : value.toFixed(0);
     static sample = {A:15000,HP:30,D:8000,MP:50,V:8000,GP:1,SA:8000,HS:24,SD:900,CAR:30,CAC:50,TR:12,CAD:400,CD:30}
     static order = ['A','D','CAC','V','CAD','CAR','SA','SD','MP','HP','HSC','CD','HS','GP','TR','BAD']
-}
-class DamageStats {
-    constructor(form) {
-        let before = DamageStats.stats.reduce((obj, p) => ({...obj, [p]: parseFloat(form.Q(`input[placeholder=${p}]`).value)}), {});
-        form.before = before;
-        let delta = DamageStats.stats.reduce((obj, p) => {
-            let data = form.Q(`data[title=${p}]`);
-            return {...obj, [p]: parseFloat(data.value) * (data.classList.contains('nega') ? -1 : 1)}
-        }, {});
-        form.delta = delta;
-        console.log(new Stats(before).add(delta));
-    }
-    static stats = ['A','CAC','CAD','SA','HSC','HS','TR','BAD']
 }
 class Icon extends HTMLElement {
     constructor() {

@@ -14,10 +14,10 @@ body,menu,ul,ol,dl,dt,dd,figure {
     margin:0; padding:0;
 }
 [hidden],input[type=radio],input[type=checkbox],
-rune-calculator,classic-rune {
+power-analyzer,classic-rune {
     display:none;
 }
-:is(rune-calculator,classic-rune):defined {
+:is(power-analyzer,classic-rune):defined {
     display:inline-block;
 }
 input:not([type]),input[type=number],select {
@@ -66,7 +66,7 @@ a.located {
     box-shadow:0 0 .5em #00000088;
 }
 .rune-slot:empty {
-    width:5em; height:5em;
+    min-width:5em; height:5em;
     background:radial-gradient(3.3em,darkgray,dimgray);
     border-radius:.3rem; border:.15rem solid;
 }
@@ -218,7 +218,7 @@ section {
 section>* {
     margin:auto;
 }
-section:has(rune-calculator) {
+section:has(power-analyzer) {
     display:flex; flex-wrap:wrap; justify-content:space-evenly; gap:2em 1em;
     padding-bottom:6em;
 }
