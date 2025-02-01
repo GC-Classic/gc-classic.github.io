@@ -27,6 +27,6 @@ Object.assign(List, {
     essential: [
         ...List.sets.map(s => `/rune/set/${s}.webp`),
         ...[0,3,4,5,6].map(s => `/rune/shape/${s}.webp`),
-        '/rune/property.jpg', '/rune/simulator/darkstone.webp'
+        '/property.jpg', '/rune/darkstone.webp'
     ],
 });
