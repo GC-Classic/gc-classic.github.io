@@ -95,17 +95,19 @@ data {
     &.nega {color:orangered;}
     &.def.posi {color:deepskyblue;}
     &.def.nega {color:darkorange;}
-    &.delta.posi::after {content:'▲'attr(value);}
-    &.delta.nega::after {content:'▼'attr(value);}
+    &.post.posi::after {content:'▲'attr(value);}
+    &.post.nega::after {content:'▼'attr(value);}
+    &.post.posi.percent::after {content:'▲'attr(value)'%';}
+    &.post.nega.percent::after {content:'▼'attr(value)'%';}
 
-    &.boost::before {
+    &.ante::before {
         content:'±'; font-size:1.5em;
         line-height:.75em; float:left;
     }
-    &.boost.posi::before {content:'+';}
-    &.boost.nega::before {content:'−';}
-    &.boost::after {content:attr(value);}
-    &.boost.percent::after {content:attr(value)' %';}
+    &.ante.posi::before {content:'+';}
+    &.ante.nega::before {content:'−';}
+    &.ante::after {content:attr(value);}
+    &.ante.percent::after {content:attr(value)' %';}
 }
 img[src*=set] {
     height:1em; width:1em;

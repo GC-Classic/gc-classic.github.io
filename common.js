@@ -54,7 +54,7 @@ const Error = message => {
     Error.timer = setTimeout(() => Q('aside').classList.remove('remind'), 3000);
 }
 const Data = {
-    observe: (what) => what.Q('.delta,.boost', data => Data.observer.observe(data, {attributeFilter: ['value']})),
+    observe: (what) => what.Q('.post,.ante', data => Data.observer.observe(data, {attributeFilter: ['value']})),
     observer: new MutationObserver(mus => mus.forEach(({target}) => {
         let decimals = `${target.value}`.split('.')[1]?.length;
         if ((!decimals || decimals <= 2) && target.matches('.done') || target.value == '?') return;
