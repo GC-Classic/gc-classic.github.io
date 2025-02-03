@@ -93,8 +93,8 @@ data {
 
     &.posi {color:limegreen;}
     &.nega {color:orangered;}
-    &.def.posi {color:deepskyblue;}
-    &.def.nega {color:darkorange;}
+    &.def.posi {color:violet;}
+    &.def.nega {color:goldenrod;}
     &.post.posi::after {content:'▲'attr(value);}
     &.post.nega::after {content:'▼'attr(value);}
     &.post.posi.percent::after {content:'▲'attr(value)'%';}
