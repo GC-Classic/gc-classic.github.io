@@ -128,9 +128,9 @@ Object.assign(Menu, {
     drag: (ev, startX, dragged, stops) => {
         ev.preventDefault();
         let distance = Math.min((ev.clientX || ev.targetTouches?.[0].pageX) - startX, dragged.Q('ul').clientWidth, stops.at(-1));
-        if (distance <= 0 || !distance) return;
+        if (distance <= 0 || !distance) return Q(':checked') && (dragged.Q(':checked').checked = false);
         dragged.style.transform = `translateX(${distance}px)`;
-        dragged.Q(`li:nth-child(${stops.length - stops.findIndex(w => distance <= w)})`).Q('input').checked = true;
+        dragged.Q(`li:nth-child(${stops.length - stops.findIndex(w => distance <= w)}) input`).checked = true;
     },
     lift: dragged => {
         document.onpointermove = document.ontouchmove = document.onpointerup = document.ontouchend = dragged.style.transform = null;
