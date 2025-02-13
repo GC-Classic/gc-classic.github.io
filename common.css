@@ -87,12 +87,12 @@ a.located {
 .rune-slot:empty,classic-rune {
     font-size:.942rem;
 }
+.posi {color:limegreen;}
+.nega {color:orangered;}
 data {
     display:inline-block;
     white-space:nowrap;
 
-    &.posi {color:limegreen;}
-    &.nega {color:orangered;}
     &.def.posi {color:violet;}
     &.def.nega {color:goldenrod;}
     &.post.posi::after {content:'▲'attr(value);}
