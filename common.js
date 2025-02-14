@@ -132,7 +132,7 @@ Object.assign(Menu, {
         let checked = stops.findIndex(w => distance <= w);
         distance && (dragged.style.transform = `translateX(${distance}px)`);
         distance <= 0 || !distance || !checked ? 
-            [ol.Q('input')].flat().forEach(input => input.checked = false) :
+            ol.Q('input', input => input.checked = false) :
             [...ol.children].at(checked*-1).Q(`input`).checked = true;
     },
     lift (dragged) {
