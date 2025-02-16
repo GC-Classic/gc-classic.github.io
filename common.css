@@ -249,8 +249,7 @@ header {
             border-right:.1em solid black;
         }
         li:last-child {margin-right:2em;}
-        u {mix-blend-mode:difference;}
-        :not(:checked)+u {opacity:.5;}
+        u {color:white;}
     }
 }
 
