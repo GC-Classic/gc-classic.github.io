@@ -4,48 +4,11 @@ const Cookie = {
     ...Object.fromEntries(document.cookie.split(/;\s?/).map(c => c.split('=')).map(([k, v]) => [k, v?.includes('{') ? JSON.parse(v) : v])),
     set: (k, v) => document.cookie = `${k}=${typeof v == 'object' ? JSON.stringify(Cookie[k] = {...Cookie[k] ?? {}, ...v}) : v}; max-age=99999999; path=/`,
 };
-const Q = Node.prototype.Q = function(el, func) {
-    let els = this.querySelectorAll?.(el) ?? document.querySelectorAll(el);
-    return func ? els.forEach(func) : els.length > 1 ? [...els] : els[0];
-}
-Node.prototype.sQ = function(...args) {return this.shadowRoot.Q(...args);}
-
-const E = (el, ...stuff) => {
-    let [text, attr, children] = E.match(['String', 'Object', 'Array'], stuff);
-    text && (attr = {textContent: text, ...attr ?? {}});
-    el == 'img' && (attr &&= {alt: attr.src.match(/([^/.]+)(\.[^/.]+)$/)?.[1], onerror: ev => ev.target.remove(), ...attr ?? {}});
-    el = ['svg', 'use', 'path'].includes(el) ? document.createElementNS('http://www.w3.org/2000/svg', el) : document.createElement(el);
-    el.append(...children ?? []);
-    Object.assign(el.style, attr?.style ?? {});
-    Object.assign(el.dataset, attr?.dataset ?? {});
-    return Object.assign(el, (({style, dataset, ...attr}) => attr)(attr ?? {}));
-}
 Object.assign(E, {
-    prop: (prop, attr) => E('prop-icon', {prop, ...attr ?? {}}),
+    icon: (prop, attr) => E('prop-icon', {prop, ...attr ?? {}}),
     bilingual: (...text) => (text.length === 1 ? text[0].split('|') : text).map(t => E('span', t)),
+});
 
-    input (...stuff) {
-        let [attr, children] = E.match(['Object', 'Array'], stuff);
-        attr ??= {}; children ??= [];
-        let {input: order, title, ...others} = attr;
-        return E('label', title ? {title} : '', order == 'last' ? [...children, E('input', others)] : [E('input', others), ...children]);
-    },
-    inputs: contents => contents.map(({children, ...attr}) => E.input(attr, [children ?? []].flat())),
-
-    radio (...stuff) {
-        let [attr, children] = E.match(['Object', 'Array'], stuff);
-        return E.input({...attr ?? {}, type: 'radio'}, children);
-    },
-    radios: (contents, common) => contents.map(({children, ...attr}) => E.radio({...attr ?? {}, ...common}, [children ?? []].flat())),
-
-    checkbox (...stuff) {
-        let [attr, children] = E.match(['Object', 'Array'], stuff);
-        return E.input({...attr ?? {}, type: 'checkbox'}, children);
-    },    
-    checkboxes: (contents, common) => contents.map(({children, ...attr}) => E.checkbox({...attr ?? {}, ...common ?? {}}, [children ?? []].flat())),
-
-    match: (types, stuff) => types.map(t => stuff.find(s => Object.prototype.toString.call(s).includes(t)))
-})
 const Error = message => {
     Q('aside p[style]')?.removeAttribute('style');
     Q(`#${message}`).style.display = 'block';
