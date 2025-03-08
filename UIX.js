@@ -1,34 +1,22 @@
+import {PointerInteraction} from 'https://aeoq.github.io/pointer-interaction/script.js'
 const Menu = () => {
     document.fonts.ready.then(Menu.align);
-    Menu.events();
+    PointerInteraction.events({
+        'menu>li:has(ol)': {
+            press: PI => {
+                PI.$press.menuWidth = PI.target.Q('ol').clientWidth - 1;
+                PI.$press.bullseye = E(PI.target.closest('div')).getBoundingPageRect().x;
+            },
+            drag: PI => {
+                PI.drag.to.translate({x: {max: PI.$press.menuWidth}, y: false});
+                PI.drag.to.select({x: PI.$press.bullseye}, [PI.target.Q('ol li')].flat());
+                Q('.PI-selected input') && (Q('.PI-selected input').checked = true);
+            },
+            lift: () => Q('.PI-selected input') && Menu.action?.()
+        }
+    })
 }
-Object.assign(Menu, {
-    align: () => Q('menu').style.left = `-${Math.max(...[...document.querySelectorAll('menu ol')].map(ol => ol.clientWidth))}px`,
-    events: () => Q('menu>li:has(ol)', el => el.onpointerdown = Menu.press),
-    
-    press ({ target: dragged, clientX: startX }) {
-        dragged = dragged.closest('li');
-        dragged.style.transition = null;
-        document.onpointermove = document.ontouchmove = ev => Menu.drag(ev, startX, dragged);
-        document.onpointerup = document.ontouchend = ev => Menu.lift(dragged);
-    },
-    drag (ev, startX, dragged) {
-        ev.preventDefault();
-        let ol = dragged.Q('ol');
-        let stops = [0, ...[...ol.children].reverse().map(li => li.clientWidth)].map((sum => w => sum += w)(32));
-        let distance = Math.min((ev.clientX || ev.targetTouches?.[0].pageX) - startX, stops.at(-1));
-        let checked = stops.findIndex(w => distance <= w);
-        distance && (dragged.style.transform = `translateX(${distance}px)`);
-        distance <= 0 || !distance || !checked ? 
-            ol.Q('input', input => input.checked = false) :
-            [...ol.children].at(checked*-1).Q(`input`).checked = true;
-    },
-    lift (dragged) {
-        document.onpointermove = document.ontouchmove = document.onpointerup = document.ontouchend = dragged.style.transform = null;
-        dragged.style.transition = 'transform .5s';
-        dragged.Q('ol :checked') && Menu.action?.(dragged);
-    },
-});
+Menu.align = () => Q('menu').style.left = `-${Math.max(...[Q('menu ol')].flat().map(ol => ol.clientWidth))}px`
 
 class Icon extends HTMLElement {
     constructor() {
