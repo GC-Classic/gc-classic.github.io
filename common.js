@@ -27,7 +27,7 @@ const Data = {
         target.classList.add('done', value > 0 ? 'posi' : value < 0 ? 'nega' : '_');
         target.value = target.matches('.percent') ? 
             Math.abs(value).toFixed(2) :
-            target.title ? Stats.round({prop: target.title, value: Math.abs(value)}) : 
+            target.title ? Stat.round({prop: target.title, value: Math.abs(value)}) : 
             Math.abs(value).toFixed(0);
         setTimeout(() => target.classList.remove('done'));
     }))
@@ -60,8 +60,6 @@ const DB = {
             ev.target.result.continue();
         }
     }),
-    show: (store = 'characters') => DB.open().then(() => DB.getAll(store))
-        .then(entries => entries.length ? entries.forEach(([i, entry]) => Analyzer.add({id: i, ...entry})) : Analyzer.add()),
     export: a => a.download ? setTimeout(() => a.download = '') : DB.getAll('characters').then(content => {
         a.href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(content.map(([, data]) => data)))}`,
         a.download = 'grand-chase-analyzer-data.json';
@@ -104,44 +102,44 @@ Object.assign(Menu, {
         dragged.Q('ol :checked') && Menu.action?.(dragged);
     },
 });
-class Stats {
+class Stat {
     constructor(stats) {
-        Object.assign(this, stats ?? Stats.zero());
+        Object.assign(this, stats ?? Stat.zero());
         let {A, SA, CAC, CAD, MP, D, SD, V, HP} = this;
         Object.defineProperties(this, {
             TA: {
                 value: (1 + CAC/100*(.2 + CAD/100)) * (.8*A + .5926*(A+SA)*(1+MP/100)) + .7*D + .14*SD + .7*V*(1 + HP/100)
             },
             add: {
-                value: (...stats) => new Stats([this, ...stats].reduce((sum, stat) => {
+                value: (...stats) => new Stat([this, ...stats].reduce((sum, stat) => {
                     Object.keys(sum).forEach(p => sum[p] += stat?.[p] ?? 0); 
                     return sum;
-                }, Stats.zero()))
+                }, Stat.zero()))
             },
             minus: {
                 value: (...stats) => this.add(stats.reduce((sum, stat) => {
                     Object.keys(sum).forEach(p => sum[p] -= stat?.[p] ?? 0); 
                     return sum;
-                }, Stats.zero()))
+                }, Stat.zero()))
             }
         });
     }
-    static zero = () => Stats.order.reduce((obj, prop) => ({...obj, [prop]: 0}), {});
+    static zero = () => Stat.order.reduce((obj, prop) => ({...obj, [prop]: 0}), {});
     static update = () => {
-        let runes = Stats.runes();
+        let runes = Stat.runes();
         Q('input[type=number]', input => input.nextElementSibling.value = runes[input.name]);
-        let TA = Stats.baseNrune();
+        let TA = Stat.baseNrune();
         Q('#stats output').value = Math.round(TA);
-        Q('#stats h2 data').value = TA - Stats.base();
+        Q('#stats h2 data').value = TA - Stat.base();
         return true;
     }
-    static base = () => new Stats(Form.base.values()).TA;
-    static runes = (equipped, base = false) => new Stats(base ? Form.base.values() : null)
+    static base = () => new Stat(Form.base.values()).TA;
+    static runes = (equipped, base = false) => new Stat(base ? Form.base.values() : null)
         .add(...Object.values(equipped ?? Runes.equipped()).map(rune => rune.rune.stats))
         .add(...Runes.equipped.sets().map(s => Rune.set.effect[s]));
-    static baseNrune = equipped => Stats.runes(equipped, true).TA;
+    static baseNrune = equipped => Stat.runes(equipped, true).TA;
     static decimals = ['CAC','CAD','HP','MP','CR','TR','CAR','GP','HSC','BAD'];
-    static round = ({prop, value}) => Stats.decimals.includes(prop) ? value.toFixed(2) : value.toFixed(0);
+    static round = ({prop, value}) => Stat.decimals.includes(prop) ? value.toFixed(2) : value.toFixed(0);
     static sample = {A:15000,HP:30,D:8000,MP:50,V:8000,GP:1,SA:8000,HS:24,SD:900,CAR:30,CAC:50,TR:12,CAD:400,CR:30}
     static order = ['A','D','CAC','V','CAD','CAR','SA','SD','MP','HP','HSC','CR','HS','GP','TR','BAD']
 }
@@ -200,7 +198,7 @@ class Icon extends HTMLElement {
     set no(bool) {bool && this.setAttribute('no', '');}
     set level(level) {this.setAttribute('level', level);}
 }
-customElements.define("prop-icon", Icon);
+// customElements.define("prop-icon", Icon);
 onhashchange = lang => {
     typeof lang != 'string' && (lang = location.hash.substring(1));
     Q('html').lang = lang;
