@@ -1,3 +1,4 @@
+import {A,E,O,Q} from 'https://aeoq.github.io/AEOQ.mjs'
 class Stat extends O {
     constructor(stats = Stat.zero()) {
         super(stats);
