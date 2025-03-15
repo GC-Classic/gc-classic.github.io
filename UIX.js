@@ -1,5 +1,5 @@
 import {A,E,O,Q} from 'https://aeoq.github.io/AEOQ.mjs'
-import {PointerInteraction} from 'https://aeoq.github.io/pointer-interaction/script.js'
+import PointerInteraction from 'https://aeoq.github.io/pointer-interaction/script.js'
 const Menu = () => {
     document.fonts.ready.then(Menu.align);
     PointerInteraction.events({
