@@ -7,10 +7,11 @@ const Menu = () => {
             press (PI) {
                 PI.$press.menuWidth = PI.target.Q('ol').clientWidth - 1;
                 PI.$press.bullseye = E(PI.target.closest('div')).getBoundingPageRect().x;
+                PI.$press.items = [PI.target.Q('ol li')].flat();
             },
             drag (PI) { 
                 PI.drag.to.translate({x: {max: PI.$press.menuWidth}, y: false});
-                PI.drag.to.select({x: PI.$press.bullseye}, [PI.target.Q('ol li')].flat());
+                PI.drag.to.select({x: PI.$press.bullseye}, PI.$press.items);
                 Q('.PI-selected input') && (Q('.PI-selected input').checked = true);
             },
             lift: () => Q('.PI-selected input') && Menu.action?.()
