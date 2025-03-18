@@ -73,4 +73,52 @@ class Icon extends HTMLElement {
     set level(level) {this.setAttribute('level', level);}
 }
 customElements.define("prop-icon", Icon);
-export {Menu, Icon}
+
+const onhashchange = lang => {
+    typeof lang != 'string' && (lang = location.hash.substring(1));
+    Q('html').lang = lang;
+    Q(`a.lang.located`)?.classList.remove('located');
+    Q(`a[href='#${lang}']`)?.classList.add('located');
+    //Q('a[href]:not(.lang)', a => a.href = a.href.replace(/(#..)?$/, `#${lang}`));
+    setTimeout(Q('menu') && Menu.align);
+}
+const DB = {
+    db: null,
+    open: () => new Promise(res => {
+        if (DB.db) return res(DB.db);
+        let opening = indexedDB.open('GCC', 1);
+        opening.onerror = er => console.error(er);
+        opening.onsuccess = () => res((DB.db = opening.result).onerror = opening.onerror);
+        opening.onupgradeneeded = () => DB.init(opening).then(res).catch(opening.onerror);
+    }),
+    init: ({result, transaction}) => new Promise(res => {
+        DB.db = result;
+        ['characters'].forEach(s => DB.db.createObjectStore(s, {autoIncrement: ['characters'].includes(s)}));
+        transaction.oncomplete = () => res(DB.db);
+    }),
+    store: (...args) => DB.db.transaction(...args).objectStore(args[0]),
+    put: (store, obj) => new Promise(res => DB.store(store, 'readwrite').put(...Array.isArray(obj) ? obj.reverse() : [obj]).onsuccess = res),
+    delete: (store, key) => new Promise(res => DB.store(store, 'readwrite').delete(key).onsuccess = res),
+    get: (store, key) => new Promise(res => DB.store(store).get(key).onsuccess = ev => res(ev.target.result)),
+    getAll: store => new Promise(res => {
+        let runes = [];
+        DB.store(store).openCursor().onsuccess = ev => {
+            let {primaryKey: key, value} = ev.target.result ?? {};
+            if (!key)
+                return res(runes);
+            runes.push([key, value])
+            ev.target.result.continue();
+        }
+    }),
+    export: a => a.download ? setTimeout(() => a.download = '') : DB.getAll('characters').then(content => {
+        a.href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(content.map(([, data]) => data)))}`,
+        a.download = 'grand-chase-analyzer-data.json';
+        a.click();
+    }),
+    import: a => {
+        let reader = new FileReader();
+        reader.readAsText(a.Q('input').files[0]);
+        reader.onload = () => Promise.all(JSON.parse(reader.result).map(data => DB.put('characters', data))).then(() => location.reload());
+    }
+}
+export {Menu, Icon, DB, onhashchange}
