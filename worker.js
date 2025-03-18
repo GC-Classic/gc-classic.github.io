@@ -22,6 +22,7 @@ const List = {
 }
 Object.assign(List, {
     essential: [
+        '/property.jpg',
         ...List.sets.map(s => `/rune/set/${s}.webp`),
         ...[0,3,4,5,6].map(s => `/rune/shape/${s}.webp`),
     ],
