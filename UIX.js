@@ -93,7 +93,7 @@ const DB = {
     }),
     init: ({result, transaction}) => new Promise(res => {
         DB.db = result;
-        ['characters'].forEach(s => DB.db.createObjectStore(s, {autoIncrement: ['characters'].includes(s)}));
+        ['characters','runes'].forEach(s => DB.db.createObjectStore(s, {autoIncrement: true}));
         transaction.oncomplete = () => res(DB.db);
     }),
     store: (...args) => DB.db.transaction(...args).objectStore(args[0]),
