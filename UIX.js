@@ -74,7 +74,7 @@ class Icon extends HTMLElement {
 }
 customElements.define("prop-icon", Icon);
 
-onhashchange = lang => {
+window.onhashchange = lang => {
     typeof lang != 'string' && (lang = location.hash.substring(1));
     Q('html').lang = lang;
     Q(`a.lang.located`)?.classList.remove('located');
