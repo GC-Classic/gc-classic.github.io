@@ -1,7 +1,7 @@
 import {A,E,O,Q} from 'https://aeoq.github.io/AEOQ.mjs'
 class Stat extends O {
-    constructor(stats = Stat.zero()) {
-        super(stats);
+    constructor(stats = {}) {
+        super(new O(Stat.zero).add(new O(stats)));
     }
     get TA () {
         let {A, SA, CAC, CAD, MP, D, SD, V, HP} = this;
@@ -13,8 +13,8 @@ class Stat extends O {
     minus (...stats) {
         return new Stat(super.minus(...stats));
     }
-    static zero = () => Stat.props.reduce((obj, prop) => ({...obj, [prop]: 0}), {});
     static props = ['A','D','CAC','V','CAD','CAR','SA','SD','MP','HP','HSC','CR','HS','GP','TR','BAD']
+    static zero = Stat.props.reduce((obj, prop) => ({...obj, [prop]: 0}), {});
     static decimals = ['CAC','CAD','HP','MP','CR','TR','CAR','GP','HSC','BAD'];
     static round = ({prop, value}) => value.toFixed(Stat.decimals.includes(prop) ? 2 : 0);
     static update = () => {
