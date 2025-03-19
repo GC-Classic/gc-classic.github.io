@@ -121,4 +121,4 @@ const DB = {
         reader.onload = () => Promise.all(JSON.parse(reader.result).map(data => DB.put('characters', data))).then(() => location.reload());
     }
 }
-export {Menu, Icon, DB, onhashchange}
+export {Menu, Icon, DB}
