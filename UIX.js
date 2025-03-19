@@ -80,7 +80,7 @@ window.onhashchange = lang => {
     Q(`a.lang.located`)?.classList.remove('located');
     Q(`a[href='#${lang}']`)?.classList.add('located');
     //Q('a[href]:not(.lang)', a => a.href = a.href.replace(/(#..)?$/, `#${lang}`));
-    setTimeout(Q('menu') && Menu.align);
+    setTimeout(Q('menu ol') && Menu.align);
 }
 const DB = {
     db: null,

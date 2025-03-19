@@ -62,6 +62,7 @@ input[type=color],label:has(:is([type=radio],[type=checkbox]):not([disabled])) {
 }
 dialog {
     inset:initial;
+    min-width:3em;
     padding:0 .2rem;
     background:rgba(0,0,0,.8); color:var(--fg);
     font-size:.8rem; text-align:left;
@@ -224,6 +225,7 @@ header {
         background:var(--fg);
         margin-right:-.1em;
         height:1.1em;
+        display:flex;
 
         &::before {
             content:'';
@@ -244,7 +246,7 @@ header {
             padding-left:1em;
         }
         li[style] {
-            height:100%; min-width:1.6em;
+            min-width:1.6em;
             padding:0 .2em;
             border-right:.1em solid black;
         }
