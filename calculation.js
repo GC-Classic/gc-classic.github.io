@@ -1,10 +1,10 @@
 import {A,E,O,Q} from 'https://aeoq.github.io/AEOQ.mjs'
 class Stat extends O {
     constructor(stats = {}) {
-        this = super(new O(Stat.zero).add(new O(stats)));
+        super(new O(Stat.zero).add(new O(stats)));
     }
     get TA () {
-        let {A, SA, CAC, CAD, MP, D, SD, V, HP} = this;
+        let {A, SA, CAC, CAD, MP, D, SD, V, HP} = new O([...this]);
         return (1 + CAC/100*(.2 + CAD/100)) * (.8*A + .5926*(A+SA)*(1+MP/100)) + .7*D + .14*SD + .7*V*(1 + HP/100);
     }
     add (...stats) {
