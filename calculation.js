@@ -1,7 +1,7 @@
 import {A,E,O,Q} from 'https://aeoq.github.io/AEOQ.mjs'
 class Stat extends O {
     constructor(stats = {}) {
-        return super(new O(Stat.zero).add(new O(stats)));
+        this = super(new O(Stat.zero).add(new O(stats)));
     }
     get TA () {
         let {A, SA, CAC, CAD, MP, D, SD, V, HP} = this;
